@@ -67,7 +67,8 @@ def condorcet(classements: Dict[int, List[str]], options: List[str]) -> Tuple[st
     """
 
     def borda_elim():
-        optionsLoc = set(tuple(x) for x in options)
+        optionsLoc = set(options)
+        firstCount = None
         while len(optionsLoc) > 1:
             nbPoints = {c: 0 for c in optionsLoc}
 
@@ -75,12 +76,18 @@ def condorcet(classements: Dict[int, List[str]], options: List[str]) -> Tuple[st
                 for i, sub in enumerate(filter(lambda x: x in nbPoints, ranking)):
                     nbPoints[sub] += len(optionsLoc) - i
             
-            loser = min(nbPoints.items(), key=lambda x: (x[1], -x[0][2]))[0]
+            if firstCount is None:
+                firstCount = nbPoints.copy()
+
+            loser = min(nbPoints.items(), key=lambda x: (x[1], x[0]))[0]
             #we remove the submission that got the lowest amount of points
             #in case of a tie, the submission that got submitted later gets the priority for getting removed
             
             optionsLoc.remove(loser)
         
+        if min(nbPoints.values()) == max(nbPoints.values()):
+            return max(firstCount, key=lambda x: firstCount[x])
+
         return optionsLoc.pop()
 
     if classements == dict():
