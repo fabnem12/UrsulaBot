@@ -216,6 +216,13 @@ def main():
         if ctx.author.id == mainAdminId:
             options = ["Ouip", "Nhop", "Switch", "France Chômage", "Le Fouet"]
             await organise_vote(ctx.channel, options)
+        
+    @bot.command(name = "màj")
+    async def maj(ctx):
+        os.system("git pull")
+        from subprocess import Popen
+        Popen(["python3", "bot.py"])
+        quit()
 
     return bot, token
 
