@@ -171,19 +171,23 @@ def main():
     @bot.event
     async def on_ready():
         autoplanner.start()
+        guild = bot.get_guild(1172592366612398111)
+        print(guild.icon.url)
 
     @bot.event
     async def on_message(message):
         await bot.process_commands(message)
-        await smart_tweet(message)
+        #await smart_tweet(message)
     
     @bot.event
     async def on_message_edit(before, after):
-        await smart_tweet(after)
+        pass
+        #await smart_tweet(after)
 
     @bot.event
     async def on_message_delete(message):
-        await smart_tweet(message, delete=True)
+        #await smart_tweet(message, delete=True)
+        pass
 
     @bot.event
     async def on_raw_reaction_add(payload):
